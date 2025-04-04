@@ -188,6 +188,12 @@ def main(arguments=None) -> None:
         default=_config.plugins.buff_spec,
         help="list of buffs to use. Default is none",
     )
+    parser.add_argument(
+        "--system_prompt",
+        type=str,
+        default=None,
+        help="system prompt to use for the system_prompt buff",
+    )
     # file or json based config options
     plugin_types = sorted(
         zip([type.lower() for type in _plugins.PLUGIN_CLASSES], _plugins.PLUGIN_TYPES)
@@ -366,6 +372,8 @@ def main(arguments=None) -> None:
         _config.plugins.detector_spec = args.detectors
     if "buffs" in args:
         _config.plugins.buff_spec = args.buffs
+    if "system_prompt" in args:
+        _config.plugins.system_prompt = args.system_prompt
 
     # base config complete
 
@@ -484,7 +492,9 @@ def main(arguments=None) -> None:
             if has_changes:
                 exit(1)  # exit with error code to denote changes
             else:
-                print("No revisions applied. Please verify options provided for `--fix`")
+                print(
+                    "No revisions applied. Please verify options provided for `--fix`"
+                )
         elif args.report:
             from garak.report import Report
 
@@ -590,6 +600,7 @@ def main(arguments=None) -> None:
             command.start_run()  # start the run now that all config validation is complete
             print(f"📜 reporting to {_config.transient.report_filename}")
 
+            print("PARSED SPECS BUFF", parsed_specs["buff"])
             if parsed_specs["detector"] == []:
                 command.probewise_run(
                     generator, parsed_specs["probe"], evaluator, parsed_specs["buff"]

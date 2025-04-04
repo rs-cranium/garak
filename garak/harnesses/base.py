@@ -3,10 +3,10 @@
 
 """Base harness
 
-A harness coordinates running probes on a generator, running detectors on the 
+A harness coordinates running probes on a generator, running detectors on the
 outputs, and evaluating the results.
 
-This module ncludes the class Harness, which all `garak` harnesses must 
+This module ncludes the class Harness, which all `garak` harnesses must
 inherit from.
 """
 
